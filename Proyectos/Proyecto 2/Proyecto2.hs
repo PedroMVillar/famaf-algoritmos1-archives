@@ -71,14 +71,30 @@ Re
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
 -- ◇ Ejercicio 4
--- a) Implementá los tipos Ingreso, Cargo, Area y Persona como est ́an definidos arriba
-data Cargo = Titular | Asociado | Adjunto | Asistente | Auxiliar
-data Area = Administrativa | Ensenanza | Economica | Postgrado
-data Persona = Decane
-           | Docente Cargo
-           | NoDocente Area
-           | Estudiante Carrera Ingreso
--- b) ¿Cuál es el tipo del constructor Docente?
+-- a) Implementá el tipo Deportista y todos sus tipos accesorios (NumCamiseta, Altura,
+-- Zona, etc) tal como están definidos arriba.
+type Altura = Int
+type NumCamiseta = Int
+data Zona = Arco | Defensa | Mediocampo | Delante
+data TipoReves = DosManos | UnaMano
+data Modalidad = Carretera | Pista | Monte | BMX
+data PiernaHabil = Izquierda | Derecha
+type ManoHabil = PiernaHabil
+data Deportista = Ajedrecista
+                | Ciclista Modalidad
+                | Velocista Altura
+                | Tenista TipoReves ManoHabil Altura
+                | Futbolista Zona NumCamiseta PiernaHabil Altura
+                
+-- b) ¿Cu ́al es el tipo del constructor Ciclista?
+-- Ciclista :: Modalidad -> Deportista
+-- c ) Programá la función contar_velocistas :: [Deportista] -> Int que dada una
+-- lista de deportistas xs, devuelve la cantidad de velocistas que hay dentro de xs.
+-- Programar contar_velocistas sin usar igualdad, utilizando pattern matching.
+contar_velocistas :: [Deportista] -> Int
+contar_velocistas [] = 0
+contar_velocistas ((Velocista x):xs) = 1 + contar_velocistas' xs (x:xs) 
+    where contar_velocistas' = contar_velocistas xs  
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
