@@ -1,5 +1,10 @@
 {
     "Bounded":"https://livebook.manning.com/concept/haskell/bounded",
     "wikiFamaf": "https://wiki.cs.famaf.unc.edu.ar/doku.php?id=algo1:2010-2:haskell-intro",
-    "clase" : "https://www.glc.us.es/~jalonso/vestigium/i1m2018-tipos-y-clases-en-haskell/"
+    "clase" : "https://www.glc.us.es/~jalonso/vestigium/i1m2018-tipos-y-clases-en-haskell/",
+    "teorico" : "https://docs.google.com/presentation/d/15dhZOodeKXUirtK9Lf2Nwy1AgMdovnVdm5CenyGnFiY/edit#slide=id.g136d38ff08f_0_15",
+    "teorico viejo": "https://docs.google.com/presentation/d/1U2OyJe_rN31UA8xx6geh9wvfJeRWBzjO26IrjN8UBFQ/edit#slide=id.p",
+    "instancias derivadas" : "http://aprendehaskell.es/content/ClasesDeTipos.html#instancias-derivadas",
+    "polimorfismo ad hoc" : "https://wiki.uqbar.org/wiki/articles/polimorfismo-parametrico-y-ad-hoc.html",
+    "tipos y clases" : "https://www.glc.us.es/~jalonso/vestigium/i1m2018-tipos-y-clases-en-haskell/"
 }
