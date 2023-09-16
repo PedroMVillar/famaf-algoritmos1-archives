@@ -248,5 +248,34 @@ la_borrar a' (Nodo a b lA) | a' == a = lA
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
 -- ◇ Ejercicio 9
+data Arbol a = Hoja | Rama (Arbol a) a (Arbol a) deriving (Show)
+-- a) a_long :: Arbol a -> Int que dado un  ́arbol devuelve la cantidad de datos alma-
+-- cenados.
+a_long :: Arbol a -> Int
+a_long Hoja = 0
+a_long (Rama aIzq _ aDer) = 1 + a_long aIzq + a_long aDer
+-- b) a_hojas :: Arbol a -> Int que dado un  ́arbol devuelve la cantidad de hojas.
+a_vacio :: Arbol a -> Bool
+a_vacio Hoja = True
+a_vacio (Rama _ _ _) = False
+a_hojas :: Arbol a -> Int
+a_hojas Hoja = 0
+a_hojas (Rama aIzq _ aDer) =
+  if a_vacio aIzq && a_vacio aDer
+    then 1
+      else a_hojas aIzq + a_hojas aDer
+-- c) a_inc :: Num a => Arbol a -> Arbol a que dado un  ́arbol que contiene n ́umeros,
+-- los incrementa en uno
+a_inc :: (Num a) => Arbol a -> Arbol a
+a_inc Hoja = Hoja
+a_inc (Rama aIzq _ aDer) = 
+
+-- d ) a_map :: (a -> b) -> Arbol a -> Arbol b que dada una función y un árbol,
+-- devuelve el  ́arbol con la misma estructura, que resulta de aplicar la función a cada uno
+-- de los elementos del árbol. Revisá la definición de la función anterior y reprogramala
+-- usando a_map.
+a_map :: (a -> b) -> Arbol a -> Arbol b
+a_map f Vacia = Vacia
+a_map f (Rama aIzq a aDer) = Rama (a_map f aIzq) (p a) (a_map f aDer)  
 
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --

@@ -34,7 +34,7 @@ data ListaAsoc a b = Vacia | Nodo a b (ListaAsoc a b)
     deriving (Show)
 type NroTel = Int
 agregarLA :: ListaAsoc EmpresaTelefono NroTel -> EmpresaTelefono -> NroTel -> ListaAsoc EmpresaTelefono NroTel
-agregarLA (Nodo a b lA) _ _ 
+agregarLA Vacia _ _  = Vacia     
 -- ╔════════════════════╗
 -- |    Ejercicio 4     |
 -- ╚════════════════════╝
