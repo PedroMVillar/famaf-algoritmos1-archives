@@ -101,16 +101,17 @@ Mi
 -- Zona, etc) tal como están definidos arriba.
 type Altura = Int
 type NumCamiseta = Int
-data Zona = Arco | Defensa | Mediocampo | Delante
-data TipoReves = DosManos | UnaMano
-data Modalidad = Carretera | Pista | Monte | BMX
-data PiernaHabil = Izquierda | Derecha
-type ManoHabil = PiernaHabil
+data Zona = Arco | Defensa | Mediocampo | Delante deriving Show
+data TipoReves = DosManos | UnaMano deriving Show
+data Modalidad = Carretera | Pista | Monte | BMX deriving Show
+data PiernaHabil = Izquierda | Derecha deriving Show
+type ManoHabil = PiernaHabil 
 data Deportista = Ajedrecista
                 | Ciclista Modalidad
                 | Velocista Altura
                 | Tenista TipoReves ManoHabil Altura
                 | Futbolista Zona NumCamiseta PiernaHabil Altura
+                deriving Show
                 
 -- b) ¿Cuál es el tipo del constructor Ciclista?
 -- Ciclista :: Modalidad -> Deportista
@@ -244,12 +245,16 @@ Just 'h'
 -- ◇ Ejercicio 7
 -- a) Programá las siguientes funciones:
 data Cola = VaciaC | Encolada Deportista Cola
+  deriving (Show)
 -- 1) atender :: Cola -> Maybe Cola, que elimina de la cola a la persona que está
 -- en la primer posición de una cola, por haber sido atendida. Si la cola está vacía,
 -- devuelve Nothing.
 atender :: Cola -> Maybe Cola
 atender VaciaC = Nothing
 atender (Encolada d c) = Just c
+{-
+
+-}
 -- 2) encolar :: Deportista -> Cola -> Cola, que agrega una persona a una cola
 -- de deportistas, en la  ́ultima posición.
 encolar :: Deportista -> Cola -> Cola
