@@ -53,7 +53,12 @@ compatibles c (x:xs)
 -- ╔════════════════════╗
 -- |    Ejercicio 3     |
 -- ╚════════════════════╝
-
+type Duracion = Int
+type Nombre = String
+data Cancion = Tema Nombre Duracion
+data Estado = Escuchando | NoEscuchando
+data Playlist = EnLista Cancion Estado Playlist | Vacia
+    
 -- ╔════════════════════╗
 -- |    Ejercicio 4     |
 -- ╚════════════════════╝
