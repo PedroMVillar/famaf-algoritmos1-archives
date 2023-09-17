@@ -58,7 +58,36 @@ type Nombre = String
 data Cancion = Tema Nombre Duracion
 data Estado = Escuchando | NoEscuchando
 data Playlist = EnLista Cancion Estado Playlist | Vacia
-    
+cancion_duracion :: Cancion -> Duracion
+cancion_duracion (Tema _ d) = d
+tiempo_reproduccion :: Playlist -> Int
+tiempo_reproduccion Vacia = 0
+tiempo_reproduccion (EnLista c e np) =
+    case e of
+        Escuchando -> dc + tiempo_reproduccion np
+        NoEscuchando -> tiempo_reproduccion np
+    where 
+        dc = cancion_duracion c 
+{-
+ghci> tiempo_reproduccion (EnLista (Tema "a" 40) Escuchando (EnLista (Tema "a" 40) Escuchando (Vacia)))
+80
+-}
 -- ╔════════════════════╗
 -- |    Ejercicio 4     |
 -- ╚════════════════════╝
+data Arbol a = Hoja | Arbol (Arbol a) a (Arbol a) deriving Show
+a_podar :: Arbol a -> Arbol a
+a_podar Hoja = Hoja
+a_podar (Arbol Hoja _ Hoja) = Hoja
+a_podar (Arbol izq x der) = Arbol (a_podar izq) x (a_podar der)
+-- El arbol definido como: (Arbol (Arbol Hoja 1 Hoja) 2 (Arbol Hoja 3 Hoja))
+--          2
+--        /   \
+--       1     3
+-- Al podarlo deberia quedar:
+--           2 
+-- El arbol definido debe quedar: Arbol Hoja 2 Hoja 
+{-
+ghci> a_podar (Arbol (Arbol Hoja 1 Hoja) 2 (Arbol Hoja 3 Hoja))
+Arbol Hoja 2 Hoja
+-}
