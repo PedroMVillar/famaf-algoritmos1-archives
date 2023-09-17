@@ -18,12 +18,24 @@ titulo Matematica = "Licenciatura en Matemática"
 titulo Fisica = "Licenciatura en Física"
 titulo Computacion = "Licenciatura en Ciencias de la Computación"
 titulo Astronomia = "Licenciatura en Astronomía"
+{-
+ghci> :t Matematica
+Matematica :: Carrera
+ghci> :t Fisica
+Fisica :: Carrera
+-}
 -- c ) Para escribir música se utiliza la denominada notación musical, la cual consta de
 -- notas (do, re, mi, ...). Además, estas notas pueden presentar algún modificador ]
 -- (sostenido) o [ (bemol), por ejemplo do], si[, etc. Por ahora nos vamos a olvidar de
 -- estos modificadores (llamados alteraciones) y vamos a representar las notas básicas.
 -- Definir el tipo NotaBasica con constructores Do, Re, Mi, Fa, Sol, La y Si.
 data NotaBasica = Do | Re | Mi | Fa | Sol | La | Si deriving (Show, Eq, Ord, Bounded)
+{-
+ghci> :t Do
+Do :: NotaBasica
+ghci> :t Si
+Si :: NotaBasica
+-}
 -- d ) El sistema de notación musical anglosajón, también conocido como notación o cifrado
 -- americano, relaciona las notas básicas con letras de la A a la G. Este sistema se usa por
 -- ejemplo para las tablaturas de guitarra. Programar usando pattern matching la función:
@@ -37,6 +49,12 @@ cifradoAmericano Fa = 'F'
 cifradoAmericano Sol = 'G'
 cifradoAmericano La = 'A'
 cifradoAmericano Si = 'B'
+{-
+ghci> cifradoAmericano Do
+'C'
+ghci> cifradoAmericano Fa
+'F'
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
@@ -55,6 +73,12 @@ minimoElemento (x:[]) = x
 minimoElemento (x:y:xs)
     | x < y = minimoElemento (x:xs)
     | otherwise = minimoElemento (y:xs)
+{-
+ghci> minimoElemento [Do, Re, Fa, Si]
+Do
+ghci> minimoElemento [Mi, Fa, La, Si]
+Mi
+-}
 --b) Definir la función minimoElemento’ de manera tal que el caso base para la lista vacía
 -- esté definido. Para ello revisar la clase Bounded.
 minimoElemento' :: (Ord a, Bounded a) => [a] -> a
@@ -64,8 +88,10 @@ minimoElemento' (x:y:xs)
     | x < y = minimoElemento (x:xs)
     | otherwise = minimoElemento (y:xs)
 {-
-ghci> minimoElemento [Fa, La, Sol, Re, Fa]
+ghci> minimoElemento' [Fa, La, Sol, Re, Fa]
 Re
+ghci> minimoElemento' [Mi, Fa, La, Si]
+Mi
 -}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
@@ -98,22 +124,41 @@ contar_velocistas ((Ciclista x):xs) = contar_velocistas xs
 contar_velocistas ((Ajedrecista):xs) = contar_velocistas xs
 contar_velocistas ((Tenista x y z):xs) = contar_velocistas xs
 contar_velocistas ((Futbolista x y z e):xs) = contar_velocistas xs
+{-
+ghci> contar_velocistas [Velocista 173, Ajedrecista, Futbolista Arco 3 Derecha 180]
+1
+ghci> contar_velocistas [Velocista 173, Ciclista Pista, Velocista 168, Velocista 98, Ajedrecista]
+3
+-}
 -- d) Programá la función contar_futbolistas :: [Deportista] -> Zona -> Int que
 -- dada una lista de deportistas xs, y una zona z, devuelve la cantidad de futbolistas
 -- incluidos en xs que juegan en la zona z. No usar igualdad, sólo pattern matching.
-fulboZona :: Deportista -> Zona -> Bool
-fulboZona (Futbolista Arco x y z) Arco = True
-fulboZona (Futbolista Defensa x y z) Defensa = True
-fulboZona (Futbolista Mediocampo x y z) Mediocampo = True
-fulboZona (Futbolista Delante x y z) Delante = True
+fulboZona :: Zona -> Deportista -> Bool
+fulboZona Arco (Futbolista Arco _ _ _) = True
+fulboZona Defensa (Futbolista Defensa _ _ _) = True
+fulboZona Mediocampo (Futbolista Mediocampo _ _ _) = True
+fulboZona Delante (Futbolista Delante _ _ _) = True
 fulboZona _ _ = False
 contar_futbolistas :: [Deportista] -> Zona -> Int
 contar_futbolistas [] _ = 0
 contar_futbolistas (x: xs) zona
-      | fulboZona x zona = 1 + contar_futbolistas xs zona
+      | fulboZona zona x = 1 + contar_futbolistas xs zona
       | otherwise = contar_futbolistas xs zona
--- e) ¿La función anterior usa filter? Si no es as ́ı, reprogramala para usarla.
-
+{-
+ghci> contar_futbolistas [Futbolista Defensa 8 Derecha 180, Ajedrecista, Tenista DosManos Izquierda 170] Defensa
+1
+ghci> contar_futbolistas [Futbolista Defensa 8 Derecha 180, Ajedrecista, Tenista DosManos Izquierda 170] Arco
+0
+-}
+-- e) ¿La función anterior usa filter? Si no es así, reprogramala para usarla.
+contar_futbolistas' :: [Deportista] -> Zona -> Int
+contar_futbolistas' xs zona = length (filter(fulboZona zona) xs)
+{-
+ghci> contar_futbolistas' [Futbolista Defensa 8 Derecha 180, Ajedrecista, Tenista DosManos Izquierda 170] Arco
+0
+ghci> contar_futbolistas' [Futbolista Defensa 8 Derecha 180, Ajedrecista, Tenista DosManos Izquierda 170] Defensa
+1
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
@@ -149,11 +194,23 @@ sonidoCromatico (Nota n a) =
     Natural -> valorNota
   where
     valorNota = sonidoNatural n
+{-
+ghci> sonidoCromatico (Nota Do Sostenido)
+1
+ghci> sonidoCromatico (Nota La Bemol)
+8
+-}
 -- e) Incluí el tipo NotaMusical a la clase Eq de manera tal que dos notas que tengan el
 -- mismo valor de sonidoCromatico se consideren iguales.
 instance Eq NotaMusical where
   n1 == n2 = sonidoCromatico n1 == sonidoCromatico n2 -- Nota 1 va a ser igual a nota 2 cuando
   -- el sonido cromatico sea igual. Agrego la instacia Eq
+  {-
+  ghci> (Nota La Bemol) == (Nota Do Sostenido)
+  False
+  ghci> (Nota La Natural) == (Nota La Natural)
+  True
+  -}
 -- f) Incluí el tipo NotaMusical a la clase Ord definiendo el operador <=. Se debe definir
 -- que una nota es menor o igual a otra si y sólo si el valor de sonidoCromatico para la
 -- primera es menor o igual al valor de sonidoCromatico para la segunda.
@@ -192,7 +249,7 @@ encolar d1 (Encolada d2 c) = Encolada d2 (encolar d1 c)
 busca :: Cola -> Zona -> Maybe Deportista
 busca VaciaC zona = Nothing
 busca (Encolada (Futbolista z n p a) c) zona
-  | fulboZona d zona = Just d
+  | fulboZona zona d = Just d
   | otherwise = busca c zona
   where
     d = Futbolista z n p a
@@ -264,18 +321,18 @@ a_hojas (Rama aIzq _ aDer) =
   if a_vacio aIzq && a_vacio aDer
     then 1
       else a_hojas aIzq + a_hojas aDer
--- c) a_inc :: Num a => Arbol a -> Arbol a que dado un  ́arbol que contiene n ́umeros,
+-- c) a_inc :: Num a => Arbol a -> Arbol a que dado un árbol que contiene números,
 -- los incrementa en uno
 a_inc :: (Num a) => Arbol a -> Arbol a
 a_inc Hoja = Hoja
-a_inc (Rama aIzq _ aDer) = 
+a_inc (Rama aIzq a aDer) = Rama (a_inc aIzq) (a + 1) (a_inc aDer)
 
--- d ) a_map :: (a -> b) -> Arbol a -> Arbol b que dada una función y un árbol,
+-- d) a_map :: (a -> b) -> Arbol a -> Arbol b que dada una función y un árbol,
 -- devuelve el  ́arbol con la misma estructura, que resulta de aplicar la función a cada uno
 -- de los elementos del árbol. Revisá la definición de la función anterior y reprogramala
 -- usando a_map.
 a_map :: (a -> b) -> Arbol a -> Arbol b
-a_map f Vacia = Vacia
-a_map f (Rama aIzq a aDer) = Rama (a_map f aIzq) (p a) (a_map f aDer)  
+a_map f Hoja = Hoja
+a_map f (Rama aIzq a aDer) = Rama (a_map f aIzq) (f a) (a_map f aDer)  
 
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
