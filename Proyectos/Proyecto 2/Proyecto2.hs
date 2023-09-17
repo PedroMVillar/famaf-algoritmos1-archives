@@ -217,7 +217,7 @@ instance Eq NotaMusical where
 -- primera es menor o igual al valor de sonidoCromatico para la segunda.
 instance Ord NotaMusical where
   n1 <= n2 = sonidoCromatico n1 <= sonidoCromatico n2 -- una nota va a ser menor o igual a otra
-  -- cuando el sonido creomatico sea menor o igual al otro
+  -- cuando el sonido cromático sea menor o igual al otro
   {-
   ghci> (Nota La Bemol) <= (Nota Do Sostenido)
   False
@@ -253,13 +253,20 @@ atender :: Cola -> Maybe Cola
 atender VaciaC = Nothing
 atender (Encolada d c) = Just c
 {-
-
+ghci> atender (Encolada Ajedrecista (Encolada Ajedrecista VaciaC))
+Just (Encolada Ajedrecista VaciaC)
+ghci> atender (Encolada Ajedrecista VaciaC)
+Just VaciaC
 -}
 -- 2) encolar :: Deportista -> Cola -> Cola, que agrega una persona a una cola
 -- de deportistas, en la  ́ultima posición.
 encolar :: Deportista -> Cola -> Cola
 encolar d VaciaC = Encolada d VaciaC
 encolar d1 (Encolada d2 c) = Encolada d2 (encolar d1 c)
+{-
+ghci> encolar (Velocista 189) (Encolada Ajedrecista (Encolada Ajedrecista VaciaC))
+Encolada Ajedrecista (Encolada Ajedrecista (Encolada (Velocista 189) VaciaC))
+-}
 -- 3) busca :: Cola -> Zona -> Maybe Deportista, que devuelve el/la primera
 -- futbolista dentro de la cola que juega en la zona que se corresponde con el segundo
 -- parámetro. Si no hay futbolistas jugando en esa zona devuelve Nothing.
@@ -271,6 +278,13 @@ busca (Encolada (Futbolista z n p a) c) zona
   where
     d = Futbolista z n p a
 busca (Encolada d c) zona = busca c zona
+{-
+ghci> busca (Encolada Ajedrecista (Encolada (Futbolista Arco 189 Izquierda 4) VaciaC)) Arco
+Just (Futbolista Arco 189 Izquierda 4)
+-}
+-- b) ¿A qué otro tipo se parece Cola?
+-- Se puede ver una similitud con el tipo Lista de Haskell donde VaciaC podria ser [] y
+-- Encolada representaria la definición recursiva de la lista a:[]
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
@@ -287,12 +301,20 @@ type GuiaTelefonica = ListaAsoc Int String
 la_long :: ListaAsoc a b -> Int
 la_long Vacia = 0
 la_long (Nodo a b lA) = 1 + la_long lA
+{-
+ghci> la_long (Nodo 1 2 (Nodo 8 3 (Vacia)))
+2
+-}
 -- 2) la_concat :: ListaAsoc a b -> ListaAsoc a b -> ListaAsoc a b, que de-
 -- vuelve la concatenación de dos listas de asociaciones.
 la_concat :: ListaAsoc a b -> ListaAsoc a b -> ListaAsoc a b
 la_concat Vacia la2 = la2
 la_concat la1 Vacia = la1
 la_concat (Nodo a b lA1) lA2 = Nodo a b (la_concat lA1 lA2)
+{-
+ghci> la_concat (Nodo 1 2 (Nodo 8 3 (Vacia))) (Nodo 2 3 (Nodo 3 2 (Vacia)))
+Nodo 1 2 (Nodo 8 3 (Nodo 2 3 (Nodo 3 2 Vacia)))
+-}
 -- 3) la_agregar :: Eq a => ListaAsoc a b -> a -> b -> ListaAsoc a b, que
 -- agrega un nodo a la lista de asociaciones si la clave no está en la lista, o actualiza
 -- el valor si la clave ya se encontraba.
@@ -300,11 +322,19 @@ la_agregar :: (Eq a) => ListaAsoc a b -> a -> b -> ListaAsoc a b
 la_agregar Vacia a b = Nodo a b Vacia
 la_agregar (Nodo a b lA) a' b' | a == a' = Nodo a b' lA
                                | otherwise = Nodo a b (la_agregar lA a' b')
+{-
+ghci> la_agregar (Nodo 1 2 (Nodo 8 3 (Vacia))) 3 4
+Nodo 1 2 (Nodo 8 3 (Nodo 3 4 Vacia))
+-}
 -- 4) la_pares :: ListaAsoc a b -> [(a, b)] que transforma una lista de asocia-
 -- ciones en una lista de pares clave-dato.
 la_pares :: ListaAsoc a b -> [(a,b)]
 la_pares Vacia = [] 
 la_pares (Nodo a b lA) = (a,b) : la_pares lA
+{-
+ghci> la_pares (Nodo 1 2 (Nodo 8 3 (Vacia)))
+[(1,2),(8,3)]
+-}
 -- 5) la_busca :: Eq a => ListaAsoc a b -> a -> Maybe b que dada una lista
 -- y una clave devuelve el dato asociado, si es que existe. En caso contrario devuelve
 -- Nothing
@@ -312,12 +342,23 @@ la_busca :: (Eq a) => ListaAsoc a b -> a -> Maybe b
 la_busca Vacia a = Nothing
 la_busca (Nodo a b lA) a' | a == a' = Just b
                           | otherwise = la_busca lA a'
+{-
+ghci> la_busca (Nodo 1 2 (Nodo 8 3 (Vacia))) 8
+Just 3
+ghci> la_busca (Nodo 1 2 (Nodo 8 3 (Vacia))) 1
+Just 2
+ghci> la_busca (Nodo 1 2 (Nodo 8 3 (Vacia))) 9
+Nothing
+-}
 -- 6) la_borrar :: Eq a => a -> ListaAsoc a b -> ListaAsoc a b que dada
 -- una clave a elimina la entrada en la lista.
 la_borrar :: (Eq a) => a -> ListaAsoc a b -> ListaAsoc a b
 la_borrar a Vacia = Vacia
 la_borrar a' (Nodo a b lA) | a' == a = lA
                            | otherwise = Nodo a b (la_borrar a' lA)
+{-
+
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
