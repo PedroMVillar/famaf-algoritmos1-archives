@@ -357,7 +357,12 @@ la_borrar a Vacia = Vacia
 la_borrar a' (Nodo a b lA) | a' == a = lA
                            | otherwise = Nodo a b (la_borrar a' lA)
 {-
-
+ghci> la_borrar 9 (Nodo 1 2 (Nodo 8 3 (Vacia)))
+Nodo 1 2 (Nodo 8 3 Vacia)
+ghci> la_borrar 2 (Nodo 1 2 (Nodo 8 3 (Vacia)))
+Nodo 1 2 (Nodo 8 3 Vacia)
+ghci> la_borrar 1 (Nodo 1 2 (Nodo 8 3 (Vacia)))
+Nodo 8 3 Vacia
 -}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
@@ -369,6 +374,12 @@ data Arbol a = Hoja | Rama (Arbol a) a (Arbol a) deriving (Show)
 a_long :: Arbol a -> Int
 a_long Hoja = 0
 a_long (Rama aIzq _ aDer) = 1 + a_long aIzq + a_long aDer
+{-
+ghci> a_long (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
+2
+ghci> a_long (Rama (Rama (Hoja) 9 (Hoja)) 1 (Rama (Rama (Rama Hoja 2 Hoja) 7 Hoja) 8 (Rama Hoja 2 Hoja)))
+6
+-}
 -- b) a_hojas :: Arbol a -> Int que dado un  ́arbol devuelve la cantidad de hojas.
 a_vacio :: Arbol a -> Bool
 a_vacio Hoja = True
@@ -379,12 +390,23 @@ a_hojas (Rama aIzq _ aDer) =
   if a_vacio aIzq && a_vacio aDer
     then 1
       else a_hojas aIzq + a_hojas aDer
+{-
+ghci> a_hojas (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
+1
+ghci> a_hojas (Rama (Rama (Hoja) 9 (Hoja)) 1 (Rama (Rama (Rama Hoja 2 Hoja) 7 Hoja) 8 (Rama Hoja 2 Hoja)))
+3
+-}
 -- c) a_inc :: Num a => Arbol a -> Arbol a que dado un árbol que contiene números,
 -- los incrementa en uno
 a_inc :: (Num a) => Arbol a -> Arbol a
 a_inc Hoja = Hoja
 a_inc (Rama aIzq a aDer) = Rama (a_inc aIzq) (a + 1) (a_inc aDer)
-
+{-
+ghci> a_inc (Rama (Rama (Hoja) 9 (Hoja)) 1 (Rama (Rama (Rama Hoja 2 Hoja) 7 Hoja) 8 (Rama Hoja 2 Hoja)))
+Rama (Rama Hoja 10 Hoja) 2 (Rama (Rama (Rama Hoja 3 Hoja) 8 Hoja) 9 (Rama Hoja 3 Hoja))
+ghci> a_inc (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
+Rama (Rama Hoja 10 Hoja) 2 Hoja
+-}
 -- d) a_map :: (a -> b) -> Arbol a -> Arbol b que dada una función y un árbol,
 -- devuelve el  ́arbol con la misma estructura, que resulta de aplicar la función a cada uno
 -- de los elementos del árbol. Revisá la definición de la función anterior y reprogramala
@@ -392,5 +414,10 @@ a_inc (Rama aIzq a aDer) = Rama (a_inc aIzq) (a + 1) (a_inc aDer)
 a_map :: (a -> b) -> Arbol a -> Arbol b
 a_map f Hoja = Hoja
 a_map f (Rama aIzq a aDer) = Rama (a_map f aIzq) (f a) (a_map f aDer)  
-
+{-
+ghci> a_map (*7) (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
+Rama (Rama Hoja 63 Hoja) 7 Hoja
+ghci> a_map (/5) (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
+Rama (Rama Hoja 1.8 Hoja) 0.2 Hoja
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
