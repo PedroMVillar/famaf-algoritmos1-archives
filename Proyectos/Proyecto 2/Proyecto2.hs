@@ -217,6 +217,12 @@ instance Eq NotaMusical where
 instance Ord NotaMusical where
   n1 <= n2 = sonidoCromatico n1 <= sonidoCromatico n2 -- una nota va a ser menor o igual a otra
   -- cuando el sonido creomatico sea menor o igual al otro
+  {-
+  ghci> (Nota La Bemol) <= (Nota Do Sostenido)
+  False
+  ghci> (Nota La Natural) >= (Nota La Natural)
+  True
+  -}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
@@ -226,6 +232,12 @@ instance Ord NotaMusical where
 primerElemento :: [a] -> Maybe a
 primerElemento [] = Nothing
 primerElemento (x:xs) = Just x
+{-
+ghci> primerElemento [Do, Re, Mi, Fa]
+Just Do
+ghci> primerElemento "hola"
+Just 'h'
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
