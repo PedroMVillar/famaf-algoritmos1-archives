@@ -14,14 +14,14 @@ de funciones polimórficas.
 En algunas de las funciones será necesario utilizar definiciones locales y también el uso de guardas
 para alternativas booleanas. En otros casos se deberá utilizar aplicación parcial de funciones y
 operadores binarios.
-- [Carpeta] (Proyectos/Proyecto 1) 
+- [Carpeta](Proyectos/Proyecto 1) 
 ## Proyecto 2
 En este proyecto definiremos nuestros propios tipos de datos. La importancia de poder definir
 nuevos tipos de datos reside en la facilidad con la que podemos modelar problemas y resolverlos
 usando las mismas herramientas que para los tipos pre-existentes.
 El objetivo de este proyecto es aprender a declarar nuevos tipos de datos en Haskell y definir
 funciones para manipular expresiones que utilizan estos tipos.
-- [Carpeta] (Proyectos/Proyecto 2)
+- [Carpeta](Proyectos/Proyecto 2)
 
 
 
