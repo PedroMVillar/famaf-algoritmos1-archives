@@ -53,3 +53,7 @@ listar_reuniones (Agendar e c ca) =
 -- ╔════════════════════╗
 -- |    Ejercicio 4     |
 -- ╚════════════════════╝
+data Arbol a = Hoja | Rama (Arbol a) a (Arbol a)
+a_min :: Arbol a -> a
+a_min (Rama Hoja x _) = x
+a_min (Rama izquierda _ _) = a_min izquierda
