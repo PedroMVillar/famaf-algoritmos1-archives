@@ -24,3 +24,9 @@ cuantos_p :: (a -> Bool) -> [a] -> Int
 cuantos_p p [] = 0
 cuantos_p p (x:xs) | p x = 1 + cuantos_p p xs
                    | otherwise = cuantos_p p xs
+
+-- Ejercicio 2.e busca.e.xs
+busca_e :: Int -> [Int] -> Int
+busca_e e [] = maxBound :: Int
+busca_e e (x:xs) | x == e = 0 `min` ((busca_e e xs) + 1)
+                 | x /= e = (maxBound :: Int) `min` ((busca_e e xs) + 1)
