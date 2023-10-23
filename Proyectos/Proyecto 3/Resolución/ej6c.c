@@ -37,3 +37,8 @@ int main(void) {
     imprimir_valores('m', output);
 	return 0;
 }
+
+/* 
+- La ventaja es ahorrar la repetición de scanf y printf.
+- Se puede aplicar a los demas programas.
+*/
