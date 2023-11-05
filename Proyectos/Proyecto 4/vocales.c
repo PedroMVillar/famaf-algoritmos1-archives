@@ -1,40 +1,39 @@
 #include <stdio.h>
-#include <stdbool.h>
+#include<stdbool.h>
 
+int pedir_caracter();
 bool es_vocal(char letra);
-char pedir_caracter();
 
-int main() {
+// ------------------------------------------------------- //
+// Implementación
+int main(){
     char letra = pedir_caracter();
-    if (es_vocal(letra)) {
-        printf("El caracter ingresado es una vocal.\n");
+    if (es_vocal(letra) == 1){
+        printf("True");
+    }else{
+        printf("False");
+    }
+    return 0; 
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion pedir_caracter
+int pedir_caracter(){
+  char x;
+  printf("Ingrese una letra: ");
+  scanf("%c", &x);
+  return x;
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion es_vocal
+bool es_vocal(char letra){
+    if (letra == 'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u' || letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O' || letra == 'U'){
+        return true;
     } else {
-        printf("El caracter ingresado no es una vocal.\n");
-    }
-    return 0;
-}
-
-bool es_vocal(char letra) {
-    switch (letra) {
-        case 'a':
-        case 'e':
-        case 'i':
-        case 'o':
-        case 'u':
-        case 'A':
-        case 'E':
-        case 'I':
-        case 'O':
-        case 'U':
-            return true;
-        default:
-            return false;
+        return false;
     }
 }
-
-char pedir_caracter() {
-    char letra;
-    printf("Ingrese un caracter: ");
-    scanf(" %c", &letra);
-    return letra;
-}
+// ------------------------------------------------------- //

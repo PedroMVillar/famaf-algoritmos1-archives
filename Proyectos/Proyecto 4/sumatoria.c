@@ -1,29 +1,40 @@
 #include <stdio.h>
+#define n_max 5
 
-#define MAX_SIZE 100
+void pedir_arreglo(int a[]);
+int sumatoria(int tam, int a[]);
 
-int sumatoria(int tam, int a[]) {
-    int suma = 0;
-    for (int i = 0; i < tam; i++) {
-        suma += a[i];
-    }
-    return suma;
-}
-
-int main() {
-    int a[MAX_SIZE];
-    int tam;
-
-    printf("Ingrese el tamaño del arreglo (máximo %d): ", MAX_SIZE);
-    scanf("%d", &tam);
-
-    printf("Ingrese los elementos del arreglo:\n");
-    for (int i = 0; i < tam; i++) {
-        scanf("%d", &a[i]);
-    }
-
-    int resultado = sumatoria(tam, a);
-    printf("La suma de los elementos del arreglo es: %d\n", resultado);
-
+// ------------------------------------------------------- //
+int main(){
+    int a[n_max];
+    pedir_arreglo(a);
+    int res = sumatoria(n_max, a);
+    printf("la suma es: %d", res);
     return 0;
 }
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion pedir_arreglo
+void pedir_arreglo(int a[]){
+  printf("ingresar %d numeros: ", n_max);
+  int i = 0;
+  while(i < n_max){
+    scanf("%d", &a[i]);
+    i++;
+  }
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion sumatoria
+int sumatoria(int tam, int a[]){
+  int suma = 0 ;
+  int i = 0;
+  while(i < tam){
+    suma = a[i] + suma;
+    i = i + 1;
+  }
+  return suma;
+}
+// ------------------------------------------------------- //

@@ -1,32 +1,42 @@
 #include <stdio.h>
 #include <assert.h>
 
-int main() {
-    int x, y, z;
+int pedir_entero(char name);
+void imprimir_entero(char name, int x);
+void asignar(int x, int y);
 
-    // Solicitar valores de entrada
-    printf("Ingrese el valor de x: ");
-    scanf("%d", &x);
+// ------------------------------------------------------- //
+// Implementación
+int main(){
+    int x = pedir_entero('x');
+    int y = pedir_entero('y');
+    asignar(x, y);
+    return 0;
+}
+// ------------------------------------------------------- //
 
-    printf("Ingrese el valor de y: ");
-    scanf("%d", &y);
+// ------------------------------------------------------- //
+// Función pedirEntero() del proyecto 3
+int pedir_entero(char name){
+  int x;
+  printf("Ingrese el valor para la variable %c: ", name);
+  scanf("%d", &x);
+  return x;
+}
+//Función imprimirEntero() del proyecto 3
+void imprimir_entero(char name, int x) {
+  printf("La variable %c es %d\n", name, x);
+}
+// ------------------------------------------------------- //
 
-    // Precondiciones: x e y son enteros
-    assert(sizeof(x) == sizeof(int));
-    assert(sizeof(y) == sizeof(int));
-
-    // Intercambiar valores
+// ------------------------------------------------------- //
+// Función de Asignación
+void asignar(int x, int y){
+    int z;
     z = x;
     x = y;
     y = z;
-
-    // Postcondiciones: x e y tienen valores intercambiados
-    assert(x == y - z);
-    assert(y == x - z);
-
-    // Imprimir resultados
-    printf("El valor intercambiado de x es: %d\n", x);
-    printf("El valor intercambiado de y es: %d\n", y);
-
-    return 0;
+    imprimir_entero('x', x);
+    imprimir_entero('y', y);
 }
+// ------------------------------------------------------- //

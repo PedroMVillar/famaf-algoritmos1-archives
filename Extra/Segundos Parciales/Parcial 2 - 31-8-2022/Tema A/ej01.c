@@ -1,16 +1,17 @@
 #include <stdio.h>
-#include <assert.h>
+#include <assert.h> 
 
 int pedir_entero(char name);
 void imprimir_entero(char name, int x);
-void asignar(int x, int y);
+void asignar(int x, int y, int z);
 
 // ------------------------------------------------------- //
 // Implementación
-int main() {
+int main(){
     int x = pedir_entero('x');
     int y = pedir_entero('y');
-    asignar(x, y);
+    int z = pedir_entero('z');
+    asignar(x, y, z);
     return 0;
 }
 // ------------------------------------------------------- //
@@ -30,18 +31,21 @@ void imprimir_entero(char name, int x) {
 // ------------------------------------------------------- //
 
 // ------------------------------------------------------- //
-// Funcion de Asignación
-void asignar(int x, int y){
-    int X, Y;
+// Función de Asignación
+void asignar(int x, int y, int z){
+    int X,Y,Z;
     X = x;
     Y = y;
-    // {Pre: x = X, y = Y}
-    assert((x==X) && (y==Y));
-    x = X + 1;
-    y = X + Y;
-    // {Post: x = X + 1, y = X + Y}
-    assert((x == X + 1) && (y == X + Y));
+    Z = z;
+    // {Pre: x = X, y = Y, z = Z, X ≠ 0, Y mod X = 0}
+    assert((x==X) && (y==Y) && (z==Z) &&(Y % X == 0));
+    x = Y / X;
+    y = Y+Z;
+    z = X*Y;
+    // {Post: x = Y / X, y = Y + Z, z = X * Y}
+    assert((x == (Y/X)) && (y == Y+Z) && (z == X*Y));
     imprimir_entero('x', x);
     imprimir_entero('y', y);
+    imprimir_entero('z', z);
 }
 // ------------------------------------------------------- //

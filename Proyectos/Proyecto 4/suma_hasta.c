@@ -1,20 +1,28 @@
 #include <stdio.h>
+#include <assert.h>
 
-// Función que calcula la suma de los primeros n números naturales
-int suma_hasta(int n) {
-    int suma = (n * (n + 1)) / 2; // Fórmula de Gauss
+int suma_hasta(int n);
+
+// ------------------------------------------------------- //
+// Implementación
+int main(){
+    int n, suma;
+    printf("Ingrese el valor de n: ");
+    scanf("%d", &n);
+    suma = suma_hasta(n);
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Función de Suma
+int suma_hasta(int n){
+    assert(n > 0);
+    int suma = 0;
+    while(n > 0){
+        suma = n + suma;
+        n--;
+    }
+    printf("La suma es: %d", suma);
     return suma;
 }
-
-int main() {
-    int n;
-    printf("Ingrese un número entero: ");
-    scanf("%d", &n);
-    if (n < 0) {
-        printf("Error: el número debe ser no negativo.\n");
-    } else {
-        int resultado = suma_hasta(n);
-        printf("La suma de los primeros %d números naturales es: %d\n", n, resultado);
-    }
-    return 0;
-}
+// ------------------------------------------------------- //

@@ -1,28 +1,41 @@
+#include <stdio.h>
 #include <assert.h>
 
-int main() {
-    int X;
-    int Y;
-    int Z;
-    int x = X;
-    int y = Y;
-    int z = Z;
+int pedir_entero(char name);
+void asignar(int x, int y, int z);
 
-    assert(x == X && y == Y && z == Z);
-
-    x = y;
-    y = z;
-    z = x;
-/*
-    int temp1 = y;
-    int temp2 = y + x + z;
-    int temp3 = y + x;
-
-    x = temp1;
-    y = temp2;
-    z = temp3;
-*/
-    assert(x == Y && y == Y + X + Z && z == Y + X);
-
-    return 0;
+// ------------------------------------------------------- //
+// Implementación
+int main(){
+  int x,y,z;
+  x = pedir_entero('x');
+  y = pedir_entero('y');
+  z = pedir_entero('z');
+  asignar(x,y,z);
+  return 0;
 }
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Función pedirEntero() del proyecto 3
+int pedir_entero(char name){
+  int x;
+  printf("Ingrese el valor para la variable %c: ", name);
+  scanf("%d", &x);
+  return x;
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Función de Asignación
+void asignar(int x, int y, int z){
+  int X,Y,Z;
+    X = x;
+    Y = y;
+    Z = z;
+    x = Y;
+    y = X + Y + Z;
+    z = Y + X;
+    printf("x = %d, y = %d, z = %d", x, y, z);
+}
+// ------------------------------------------------------- //

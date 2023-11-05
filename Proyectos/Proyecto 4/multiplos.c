@@ -1,30 +1,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool todos_pares(int tam, int a[]) {
-    for (int i = 0; i < tam; i++) {
-        if (a[i] % 2 != 0) {
-            return false;
-        }
-    }
-    return true;
-}
+bool todos_pares(int tam, int a[]);
+bool existe_multiplo(int m, int tam, int a[]);
 
-bool existe_multiplo(int m, int tam, int a[]) {
-    for (int i = 0; i < tam; i++) {
-        if (a[i] % m == 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
+// ------------------------------------------------------- //
+// Implementación
 int main() {
     int tam = 5; // asumiendo un tamaño constante de 5
     int a[tam];
     printf("Ingrese %d numeros enteros:\n", tam);
-    for (int i = 0; i < tam; i++) {
+    int i = 0;
+    while (i < tam) {
         scanf("%d", &a[i]);
+        i++;
     }
     int opcion;
     printf("Elija una opcion:\n");
@@ -51,3 +40,32 @@ int main() {
     }
     return 0;
 }
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion que verifica si todos los numeros en un arreglo son pares //
+bool todos_pares(int tam, int a[]) {
+    int i = 0;
+    while (i < tam) {
+        if (a[i] % 2 != 0) {
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Funcion que verifica si existe un multiplo de un numero dado en un arreglo //
+bool existe_multiplo(int m, int tam, int a[]) {
+    int i = 0;
+    while (i < tam) {
+        if (a[i] % m == 0) {
+            return true;
+        }
+        i++;
+    }
+    return false;
+}
+// ------------------------------------------------------- //

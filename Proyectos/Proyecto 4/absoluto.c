@@ -1,20 +1,25 @@
 #include <stdio.h>
 #include <assert.h>
 
-int abs(int num) {
-    assert(num != -2147483648); // aseguramos que el número no sea el mínimo valor de un int
-    if (num < 0) {
-        return -num;
-    } else {
-        return num;
-    }
-}
+int abs(int x);
 
-int main() {
-    int num;
-    printf("Ingrese un número entero: ");
-    scanf("%d", &num);
-    int abs_num = abs(num);
-    printf("El valor absoluto de %d es %d\n", num, abs_num);
-    return 0;
+// ------------------------------------------------------- //
+// Implementación
+int main(){
+  int x;
+  printf("Ingrese un valor para x:");
+  scanf("%d", &x);
+  printf("el val absol es: %d", abs(x));
+  return 0;
 }
+// ------------------------------------------------------- //
+
+// ------------------------------------------------------- //
+// Función de valor absoluto
+int abs(int x){
+  if(x<0){
+    return -x;
+  }
+  return x;
+}
+// ------------------------------------------------------- //

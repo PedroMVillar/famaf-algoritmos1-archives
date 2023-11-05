@@ -1,14 +1,15 @@
 #include <stdio.h>
+#include <limits.h>
 
-struct comp_t {
-    int menores;
-    int iguales;
-    int mayores;
+struct datos_t {
+    float maximo;
+    float minimo;
+    float promedio;
 };
 
-void pedir_arreglo(int tam, int a[]);
-void imprimir_arreglo(int tam, int a[]);
-struct comp_t cuantos(int tam, int a[], int elem);
+void pedir_arreglo(int tam, float a[]);
+void imprimir_arreglo(int tam, float a[]);
+struct datos_t stats(int tam, float a[]);
 
 // ------------------------------------------------------- //
 // Implementación
@@ -16,29 +17,24 @@ int main(){
     int tam;
     printf("Ingrese el tamaño del arreglo: ");
     scanf("%d", &tam);
-    int a[tam];
-    int elem;
-    struct comp_t res;
+    float a[tam];
+    struct datos_t res;
     pedir_arreglo(tam, a);
-    imprimir_arreglo(tam, a);
-    printf("\n");
-    printf("Ingrese el elemento a comparar: ");
-    scanf("%d", &elem);
-    res = cuantos(tam, a, elem);
-    printf("Menores: %d\n", res.menores);
-    printf("Iguales: %d\n", res.iguales);
-    printf("Mayores: %d\n", res.mayores);
+    res = stats(tam, a);
+    printf("Maximo: %f\n", res.maximo);
+    printf("Minimo: %f\n", res.minimo);
+    printf("Promedio: %f\n", res.promedio);
     return 0;
 }
 // ------------------------------------------------------- //
 
 // ------------------------------------------------------- //
 // Funcion que pide un arreglo de enteros de tamaño n_max //
-void pedir_arreglo(int tam, int a[]){
+void pedir_arreglo(int tam, float a[]){
     int i= 0;
     while (i<tam){
         printf("Ingrese el valor %d: ", i+1);
-        scanf("%d", &a[i]);
+        scanf("%f", &a[i]);
         i++;
     }
 }
@@ -46,7 +42,7 @@ void pedir_arreglo(int tam, int a[]){
 
 // ------------------------------------------------------- //
 // Funcion que imprime un arreglo de enteros de tamaño n_max //
-void imprimir_arreglo(int tam, int a[]){
+void imprimir_arreglo(int tam, float a[]){
     int i= 0;
     while (i<tam){
         printf("%d ", a[i]);
@@ -57,22 +53,23 @@ void imprimir_arreglo(int tam, int a[]){
 
 // ------------------------------------------------------- //
 // Funcion que retorna la cantidad de elementos menores, iguales y mayores a un elemento dado en un arreglo //
-struct comp_t cuantos(int tam, int a[], int elem){
+struct datos_t stats(int tam, float a[]){
     int i = 0;
-    struct comp_t res;
-    res.menores = 0;
-    res.iguales = 0;
-    res.mayores = 0;
+    struct datos_t res;
+    res.maximo = INT_MIN;
+    res.minimo = INT_MAX;
+    res.promedio = 0;
+    int suma = 0;
     while (i<tam){
-        if (a[i] < elem){
-            res.menores++;
-        } else if (a[i] == elem){
-            res.iguales++;
-        } else {
-            res.mayores++;
+        if (a[i] > res.maximo){
+            res.maximo = a[i];
+        } else if (a[i] < res.minimo){
+            res.minimo = a[i];
         }
+        suma = a[i] + suma;
         i++;
     }
+    res.promedio = suma / tam;
     return res;
 }
 // ------------------------------------------------------- //
