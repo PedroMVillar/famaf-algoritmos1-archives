@@ -59,7 +59,7 @@ ghci> cifradoAmericano Fa
 
 -- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
 -- ◇ Ejercicio 2
--- a) Completar la definici ́on del tipo NotaBasica
+-- a) Completar la definición del tipo NotaBasica
 -- "deriving (Show, Ord)"
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
@@ -112,7 +112,6 @@ data Deportista = Ajedrecista
                 | Tenista TipoReves ManoHabil Altura
                 | Futbolista Zona NumCamiseta PiernaHabil Altura
                 deriving Show
-                
 -- b) ¿Cuál es el tipo del constructor Ciclista?
 -- Ciclista :: Modalidad -> Deportista
 -- c ) Programá la función contar_velocistas :: [Deportista] -> Int que dada una
@@ -269,7 +268,8 @@ Encolada Ajedrecista (Encolada Ajedrecista (Encolada (Velocista 189) VaciaC))
 -}
 -- 3) busca :: Cola -> Zona -> Maybe Deportista, que devuelve el/la primera
 -- futbolista dentro de la cola que juega en la zona que se corresponde con el segundo
--- parámetro. Si no hay futbolistas jugando en esa zona devuelve Nothing.
+-- parámetro. Si no hay futbolistas jugando en esa zona devuelve Nothing. 
+
 busca :: Cola -> Zona -> Maybe Deportista
 busca VaciaC zona = Nothing
 busca (Encolada (Futbolista z n p a) c) zona
@@ -420,4 +420,41 @@ Rama (Rama Hoja 63 Hoja) 7 Hoja
 ghci> a_map (/5) (Rama (Rama (Hoja) 9 (Hoja)) 1 Hoja)
 Rama (Rama Hoja 1.8 Hoja) 0.2 Hoja
 -}
+-- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ -- 
+
+-- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
+-- ◇ Ejercicio 10
+-- a)
+data ABB a = VacioABB | RamaABB (ABB a) a (ABB a) deriving (Show)
+
+-- b)
+insertarABB :: Ord a => a -> ABB a -> ABB a
+insertarABB x VacioABB = RamaABB VacioABB x VacioABB
+insertarABB x (RamaABB ri n rd)
+  | x <= n = RamaABB (insertarABB x ri) n rd
+  | otherwise = RamaABB ri n (insertarABB x rd)
+
+-- c)
+buscarEnArbol :: Eq a => a -> ABB a -> Bool
+buscarEnArbol x VacioABB = False
+buscarEnArbol x (RamaABB ri n rd)
+  | x == n = True
+  | otherwise = buscarEnArbol x ri || buscarEnArbol x rd
+
+-- d) 
+mayorQueTodos :: Ord a => a -> ABB a -> Bool
+mayorQueTodos x VacioABB = True
+mayorQueTodos x (RamaABB ri n rd)
+  | x > n = mayorQueTodos x ri && mayorQueTodos x rd
+  | otherwise = False
+
+menorQueTodos :: Ord a => a -> ABB a -> Bool
+menorQueTodos x VacioABB = True
+menorQueTodos x (RamaABB ri n rd)
+  | x < n = menorQueTodos x ri && menorQueTodos x rd
+  | otherwise = False
+
+verificarABB :: Ord a => ABB a -> Bool
+verificarABB VacioABB = True
+verificarABB (RamaABB ri n rd) = mayorQueTodos n ri && menorQueTodos n rd
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ -- 

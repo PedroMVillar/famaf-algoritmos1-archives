@@ -128,7 +128,7 @@ False
 --    predicado t.
 paraTodo' :: [a] -> (a -> Bool) -> Bool
 paraTodo' [] f = True
-paraTodo' (x:xs) f = f x && paraTodo' xs f
+paraTodo' (x:xs) f = f x && paraTodo' xs f 
 {-
 ghci> paraTodo' [1,2,3,0] esCero
 False
@@ -276,7 +276,9 @@ fib 0 = 0
 fib 1 = 1
 fib n = fib (n-1) + fib (n-2)
 esFib :: Int -> Bool
-esFib n = existe' (takeWhile (<= n) [fib i | i <- [0..n]]) (==n)
+esFib n = n `elem` [fib i | i <- [0..n]]
+
+--esFib n = existe' (takeWhile (<= n) [fib i | i <- [0..n]]) (==n)
 {-
 ghci> esFib 5
 True
@@ -405,7 +407,7 @@ ghci> primIgualesA 2 [1,2,2,2,2,2,2,2]
 
 --    b) Programá nuevamente la función utilizando takeWhile.
 primIgualesA' :: (Eq a) => a -> [a] -> [a]
-primIgualesA' x = takeWhile (==x)
+primIgualesA' n = takeWhile (==n)
 {-
 ghci> primIgualesA' 1 [1,1,2,3,4,1,1,1]
 [1,1]
@@ -469,21 +471,26 @@ ghci> primIguales' [3,4,3,4,4,4,4,4,1]
 --              cuantGen. .z.xs.t = 〈⊕ i : 0 ≤i < #xs : t.(xs ! i) 〉
 -- Reescribir todas las funciones del punto 4 utilizando el cuantificador generalizado (sin usar
 -- inducción y en una línea por función).
+
 cuantGen :: (b -> b -> b) -> b -> [a] -> (a -> b) -> b
 cuantGen op z xs t = foldr op z (map t xs)
 
+-- { 〈∀i : 0 ≤i < #xs : t.xs!i 〉 } -- 
 -- a) paraTodo' 
-paratodo''' :: [Bool] -> Bool
-paratodo''' xs = cuantGen (&&) True xs id
+paratodo''' :: [a] -> (a -> Bool) -> Bool
+paratodo''' xs t = cuantGen (&&) True xs t
 
+-- { 〈∃i : 0 ≤i < #xs : t.xs!i 〉 } -- 
 -- b) existe' 
 existe''' :: [a] -> (a -> Bool) -> Bool
 existe''' xs t = cuantGen (||) False xs t
 
+-- { 〈Σ i : 0 ≤i < #xs : t.xs!i 〉 } --
 -- c) sumatoria'
 sumatoria''' :: [a] -> (a -> Int) -> Int
 sumatoria''' xs t = cuantGen (+) 0 xs t
 
+-- { 〈Π i : 0 ≤i < #xs : t.xs!i 〉 } --
 -- d) productoria'
 productoria''' :: [a] -> (a -> Int) -> Int
 productoria''' xs t = cuantGen (*) 1 xs t
@@ -528,3 +535,85 @@ ghci> primQueCumplen [1,2,3,4] even
 -}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
 
+-- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
+-- 15. (*) Para cada uno de los siguientes patrones, decidí si están bien tipados, y en tal caso dá los
+-- tipos de cada subexpresión. En caso de estar bien tipado, ¿el patr´on cubre todos los casos
+-- de deﬁnición?
+{- a) f :: (a, b) -> ...
+      f (x, y) = ...
+
+    (x,y) :: (a,b)
+    x :: a
+    y :: b
+
+    Si cubre todos los casos.
+
+   b) f :: [(a, b)] -> ...
+      f (a, b) = ...
+
+    Mal tipado, cubre tuplas pero requiere lista de tuplas.
+
+
+   c) f :: [(a, b)] -> ...
+      f (x:xs) = ...
+
+    Buen tipado pero no cubre el caso de lista vacía.
+
+
+   d) f :: [(a, b)] -> ...
+      f ((x, y) : ((a, b) : xs)) = ...
+
+    Buen tipado pero no cubre el caso de lista vacía ni el caso de un solo elemento.
+
+
+   e) f :: [(Int, a)] -> ...
+      f [(0, a)] = ...
+
+    Buen tipado pero no cubre el caso de lista vacía ni ningún caso en donde el primer elemento no sea 0.
+
+
+   f) f :: [(Int, a)] -> ...
+      f ((x, 1) : xs) = ...
+
+    Buen tipado pero no cubre el caso de lista vacía ni ningún caso en donde el segundo elemento no sea 1.
+
+
+   g) f :: (Int -> Int) -> Int -> ...
+      f a b = ...
+
+    (a, b) :: ((Int -> Int), Int)
+    a :: (Int -> Int)
+    b :: Int
+
+    Si cubre todos los casos.
+
+
+   h) f :: (Int -> Int) -> Int -> ...
+      f a 3 = ...
+
+    Buen tipado pero no cubre ningún caso en donde el segundo elemento no sea 3.
+
+
+   i) f :: (Int -> Int) -> Int -> ...
+      f 0 1 2 = ...
+
+    Mal tipado, cubre el caso Int -> Int -> Int pero f requiere (Int -> Int) -> Int.
+-}
+-- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ --
+
+-- ╔═══════════════════════════════════════════════════════════════════════════════════════════╗ --
+-- 16.Para las siguientes declaraciones de funciones, da al menos una deﬁnición cuando sea
+-- posible. ¿Podés dar alguna otra deﬁnición alternativa a la que diste en cada caso?
+{- a) f :: (a, b) -> b
+      f (x, y) = y
+
+   b) f :: (a, b) -> c
+      f (x, y) = x*y
+
+   c) f :: (a -> b) -> a -> b
+      f p x = y
+
+   d) f :: (a -> b) -> [a] -> [b]
+      f p xs = filter p xs
+-}
+-- ╚═══════════════════════════════════ ════════════════════════════════════════════════════════╝ --
