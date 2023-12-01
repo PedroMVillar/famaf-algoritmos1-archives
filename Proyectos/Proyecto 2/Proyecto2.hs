@@ -433,13 +433,25 @@ insertarABB x VacioABB = RamaABB VacioABB x VacioABB
 insertarABB x (RamaABB ri n rd)
   | x <= n = RamaABB (insertarABB x ri) n rd
   | otherwise = RamaABB ri n (insertarABB x rd)
-
+{-
+ghci> insertarABB 4 (RamaABB VacioABB 7 VacioABB)
+RamaABB (RamaABB VacioABB 4 VacioABB) 7 VacioABB
+ghci> insertarABB 2 (RamaABB (RamaABB VacioABB 4 (RamaABB (RamaABB VacioABB 1 VacioABB) 3 VacioABB)) 7 VacioABB)
+RamaABB (RamaABB (RamaABB VacioABB 2 VacioABB) 4 (RamaABB (RamaABB VacioABB 1 VacioABB) 3 VacioABB)) 7 VacioABB
+-}
 -- c)
 buscarEnArbol :: Eq a => a -> ABB a -> Bool
 buscarEnArbol x VacioABB = False
 buscarEnArbol x (RamaABB ri n rd)
   | x == n = True
   | otherwise = buscarEnArbol x ri || buscarEnArbol x rd
+{-
+ghci> buscarEnArbol 2 (RamaABB (RamaABB VacioABB 4 (RamaABB (RamaABB VacioABB 1 VacioABB) 3 VacioABB)) 7 VacioABB)
+False
+ghci> buscarEnArbol 7 (RamaABB (RamaABB VacioABB 4 (RamaABB (RamaABB VacioABB 1 VacioABB) 3 VacioABB)) 7 VacioABB)
+True
+-}
+
 
 -- d) 
 mayorQueTodos :: Ord a => a -> ABB a -> Bool
@@ -447,6 +459,8 @@ mayorQueTodos x VacioABB = True
 mayorQueTodos x (RamaABB ri n rd)
   | x > n = mayorQueTodos x ri && mayorQueTodos x rd
   | otherwise = False
+
+
 
 menorQueTodos :: Ord a => a -> ABB a -> Bool
 menorQueTodos x VacioABB = True
@@ -457,4 +471,10 @@ menorQueTodos x (RamaABB ri n rd)
 verificarABB :: Ord a => ABB a -> Bool
 verificarABB VacioABB = True
 verificarABB (RamaABB ri n rd) = mayorQueTodos n ri && menorQueTodos n rd
+
+{-
+ghci> p1 = RamaABB (RamaABB VacioABB 10 VacioABB) 2 (RamaABB VacioABB 11 VacioABB)
+ghci> verificarABB p1
+False
+-}
 -- ╚═══════════════════════════════════════════════════════════════════════════════════════════╝ -- 

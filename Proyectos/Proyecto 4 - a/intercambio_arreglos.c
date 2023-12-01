@@ -10,7 +10,7 @@ void pedir_arreglo(int n_max, int a[]){
   }
 }
 
-void intercambiar(int tam, int a[], int i, int j){
+void intercambiar(int a[], int i, int j){
   int I;
   int J;
   I = a[i];
@@ -46,7 +46,7 @@ int main(){
   printf("valor de j: ");
   scanf("%d", &j);
   assert(i >= 0 && i < 4 && j >=0 && j < 4 && j != i);
-  intercambiar(4, a, i, j);
+  intercambiar(a, i, j);
   imprimir_arreglo(4, a);
   return 0;
 }

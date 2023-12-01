@@ -38,3 +38,15 @@ agregarLA Vacia _ _  = Vacia
 -- ╔════════════════════╗
 -- |    Ejercicio 4     |
 -- ╚════════════════════╝
+data Arbol a = Hoja | Rama (Arbol a) a (Arbol a) deriving (Show)
+buscarEnArbol :: Eq a => a -> Arbol a -> Bool
+buscarEnArbol x Hoja = False
+buscarEnArbol x (Rama ri n rd)
+  | x == n = True
+  | otherwise = buscarEnArbol x ri || buscarEnArbol x rd
+{-
+ghci> buscarEnArbol 2 (Rama (Rama Hoja 4 (Rama (Rama Hoja 1 Hoja) 3 Hoja)) 7 Hoja)
+False
+ghci> buscarEnArbol 2 (Rama (Rama Hoja 4 (Rama (Rama Hoja 1 Hoja) 3 Hoja)) 2 Hoja)
+True
+-}

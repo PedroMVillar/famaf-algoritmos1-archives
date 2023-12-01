@@ -108,5 +108,3 @@ instance Eq ArticulosLibreria where
 -- ╔════════════════════╗
 -- |    Ejercicio 3     |
 -- ╚════════════════════╝
-
-
